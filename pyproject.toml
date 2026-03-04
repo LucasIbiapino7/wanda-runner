@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "wanda-runner"
+version = "0.1.0"
+description = ""
+authors = ["Lucas Ibiapino <lucas.ibiapino07@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = {extras = ["standard"], version = "^0.135.1"}
+structlog = "^25.5.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.0.2"
+httpx = "^0.28.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
