@@ -1,9 +1,14 @@
 import multiprocessing
 import time
 from typing import Any
-
+import sys
+import os
 
 def _worker(code: str, function_name: str, args: list, result_queue: multiprocessing.Queue):
+    # Silencia qualquer print do código do aluno
+    sys.stdout = open(os.devnull, 'w')
+    sys.stderr = open(os.devnull, 'w')
+    
     try:
         local_env = {}
         exec(code, {}, local_env)
