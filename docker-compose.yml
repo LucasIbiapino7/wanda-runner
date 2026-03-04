@@ -1,0 +1,20 @@
+services:
+  wanda-runner:
+    build: .
+    container_name: wanda-runner
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256m
+    networks:
+      - wanda-internal
+    restart: unless-stopped
+
+networks:
+  wanda-internal:
+    driver: bridge
