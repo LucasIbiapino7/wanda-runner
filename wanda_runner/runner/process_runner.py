@@ -4,6 +4,25 @@ from typing import Any
 import sys
 import os
 
+SAFE_BUILTINS = {
+    "abs": abs, "bool": bool, "dict": dict, "enumerate": enumerate,
+    "filter": filter, "float": float, "int": int, "isinstance": isinstance,
+    "len": len, "list": list, "map": map, "max": max, "min": min,
+    "print": print, "range": range, "round": round, "set": set,
+    "sorted": sorted, "str": str, "sum": sum, "tuple": tuple, "zip": zip,
+    "None": None, "True": True, "False": False,
+    # Exceções comuns
+    "Exception": Exception,
+    "ValueError": ValueError,
+    "TypeError": TypeError,
+    "KeyError": KeyError,
+    "IndexError": IndexError,
+    "AttributeError": AttributeError,
+    "RuntimeError": RuntimeError,
+}
+
+SAFE_GLOBALS = {"__builtins__": SAFE_BUILTINS}
+
 def _worker(code: str, function_name: str, args: list, result_queue: multiprocessing.Queue):
     # Silencia qualquer print do código do aluno
     sys.stdout = open(os.devnull, 'w')
@@ -11,7 +30,7 @@ def _worker(code: str, function_name: str, args: list, result_queue: multiproces
     
     try:
         local_env = {}
-        exec(code, {}, local_env)
+        exec(code, SAFE_GLOBALS, local_env)
         fn = local_env[function_name]
         output = fn(*args)
         result_queue.put({"ok": True, "output": output})
